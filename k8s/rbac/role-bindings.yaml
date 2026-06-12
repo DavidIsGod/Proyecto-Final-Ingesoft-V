@@ -39,3 +39,73 @@ roleRef:
   kind: Role
   name: circleguard-config-reader
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: identity-config-reader
+  namespace: circleguard
+subjects:
+  - kind: ServiceAccount
+    name: circleguard-identity-service
+    namespace: circleguard
+roleRef:
+  kind: Role
+  name: circleguard-config-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: notification-config-reader
+  namespace: circleguard
+subjects:
+  - kind: ServiceAccount
+    name: circleguard-notification-service
+    namespace: circleguard
+roleRef:
+  kind: Role
+  name: circleguard-config-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: form-config-reader
+  namespace: circleguard
+subjects:
+  - kind: ServiceAccount
+    name: circleguard-form-service
+    namespace: circleguard
+roleRef:
+  kind: Role
+  name: circleguard-config-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: file-config-reader
+  namespace: circleguard
+subjects:
+  - kind: ServiceAccount
+    name: circleguard-file-service
+    namespace: circleguard
+roleRef:
+  kind: Role
+  name: circleguard-config-reader
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gateway-config-reader
+  namespace: circleguard
+subjects:
+  - kind: ServiceAccount
+    name: circleguard-gateway-service
+    namespace: circleguard
+roleRef:
+  kind: Role
+  name: circleguard-config-reader
+  apiGroup: rbac.authorization.k8s.io

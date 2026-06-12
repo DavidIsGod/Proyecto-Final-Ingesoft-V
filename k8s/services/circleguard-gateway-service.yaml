@@ -14,6 +14,10 @@ spec:
     metadata:
       labels:
         app: circleguard-gateway-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8087"
+        prometheus.io/path: "/actuator/prometheus"
     spec:
       serviceAccountName: circleguard-gateway-service
       containers:

@@ -32,4 +32,10 @@ class FileUploadControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.filename").value("certificate.pdf"));
     }
+
+    @Test
+    void shouldRejectUploadWithoutFile() throws Exception {
+        mockMvc.perform(multipart("/api/v1/files/upload"))
+                .andExpect(status().isBadRequest());
+    }
 }

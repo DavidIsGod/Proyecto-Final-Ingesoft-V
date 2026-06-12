@@ -8,6 +8,7 @@ resources:
   - rbac/role-bindings.yaml
   - config/configmaps.yaml
   - config/secrets.example.yaml
+  - infrastructure/postgres-init-configmap.yaml
   - infrastructure/postgres.yaml
   - infrastructure/neo4j.yaml
   - infrastructure/redis.yaml
