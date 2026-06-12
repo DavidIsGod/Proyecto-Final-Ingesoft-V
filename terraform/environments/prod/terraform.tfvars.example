@@ -1,0 +1,16 @@
+aws_region             = "us-east-1"
+project_name           = "circleguard"
+environment            = "prod"
+vpc_cidr               = "10.2.0.0/16"
+public_subnet_cidrs    = ["10.2.1.0/24", "10.2.2.0/24", "10.2.3.0/24"]
+private_subnet_cidrs   = ["10.2.10.0/24", "10.2.11.0/24", "10.2.12.0/24"]
+availability_zones     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+db_instance_class      = "db.r6g.large"
+db_allocated_storage   = 100
+db_username            = "circleguard_admin"
+db_password            = "CHANGE_ME_PROD_PASSWORD"
+eks_cluster_version    = "1.29"
+eks_node_instance_types = ["m5.large"]
+eks_node_desired_size  = 3
+eks_node_min_size      = 3
+eks_node_max_size      = 6

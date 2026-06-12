@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:classpath:actuator.yml
   application:
     name: circleguard-auth-service
   datasource:
@@ -28,3 +30,7 @@ qr:
 
 server:
   port: 8180
+
+circleguard:
+  identity-service:
+    url: http://localhost:8083

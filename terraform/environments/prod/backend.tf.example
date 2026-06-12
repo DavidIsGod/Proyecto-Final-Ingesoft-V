@@ -1,0 +1,9 @@
+terraform {
+  backend "s3" {
+    bucket         = "circleguard-tfstate-example"
+    key            = "env/prod/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "circleguard-tf-lock"
+    encrypt        = true
+  }
+}

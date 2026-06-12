@@ -1,0 +1,16 @@
+.git
+.github
+.gradle
+**/build
+**/bin
+mobile/node_modules
+mobile/.expo
+docs
+terraform
+k8s
+tests
+*.md
+dashboard_test_output.txt
+scratch
+design-assets
+.agent

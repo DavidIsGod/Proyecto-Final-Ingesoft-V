@@ -46,4 +46,25 @@ subprojects {
     tasks.withType<Test> {
         useJUnitPlatform()
     }
+
+    pluginManager.withPlugin("org.springframework.boot") {
+        apply(plugin = "jacoco")
+
+        dependencies {
+            "implementation"("org.springframework.boot:spring-boot-starter-actuator")
+            "implementation"("io.micrometer:micrometer-registry-prometheus")
+        }
+
+        tasks.named<Test>("test") {
+            finalizedBy(tasks.named("jacocoTestReport"))
+        }
+
+        tasks.named<org.gradle.testing.jacoco.tasks.JacocoReport>("jacocoTestReport") {
+            dependsOn(tasks.named("test"))
+            reports {
+                xml.required.set(true)
+                html.required.set(true)
+            }
+        }
+    }
 }

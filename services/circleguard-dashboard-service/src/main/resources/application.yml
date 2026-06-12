@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:classpath:actuator.yml
   application:
     name: circleguard-dashboard-service
   datasource:
@@ -15,3 +17,17 @@ spring:
 
 server:
   port: 8084
+
+circleguard:
+  promotion-service:
+    url: http://localhost:8088
+  features:
+    analytics-enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      promotionClient:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s

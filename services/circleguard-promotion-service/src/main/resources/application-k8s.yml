@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL_PROMOTION:jdbc:postgresql://postgres:5432/circleguard_promotion}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+  neo4j:
+    uri: ${SPRING_NEO4J_URI:bolt://neo4j:7687}
+    authentication:
+      username: neo4j
+      password: ${NEO4J_PASSWORD:password}
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:redis}
+jwt:
+  secret: ${JWT_SECRET:my-super-secret-dev-key-32-chars-long-12345678}

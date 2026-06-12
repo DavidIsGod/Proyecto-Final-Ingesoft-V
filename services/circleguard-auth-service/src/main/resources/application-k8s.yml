@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL_AUTH:jdbc:postgresql://postgres:5432/circleguard_auth}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+  ldap:
+    urls: ${SPRING_LDAP_URLS:ldap://openldap:389}
+jwt:
+  secret: ${JWT_SECRET:my-super-secret-dev-key-32-chars-long-12345678}
+qr:
+  secret: ${QR_SECRET:my-qr-secret-key-for-dev-1234567890}
+circleguard:
+  identity-service:
+    url: ${CIRCLEGUARD_IDENTITY_SERVICE_URL:http://circleguard-identity-service:8083}

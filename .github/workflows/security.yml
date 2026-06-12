@@ -1,0 +1,38 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - circleguard-auth-service
+          - circleguard-identity-service
+          - circleguard-promotion-service
+          - circleguard-notification-service
+          - circleguard-form-service
+          - circleguard-file-service
+          - circleguard-gateway-service
+          - circleguard-dashboard-service
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t scan/${{ matrix.service }}:ci -f services/${{ matrix.service }}/Dockerfile .
+
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: scan/${{ matrix.service }}:ci
+          format: table
+          exit-code: "1"
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true

@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:classpath:actuator.yml
   application:
     name: circleguard-notification-service
   kafka:

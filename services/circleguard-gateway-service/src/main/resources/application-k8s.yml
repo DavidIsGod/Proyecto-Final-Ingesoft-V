@@ -1,0 +1,8 @@
+spring:
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:redis}
+jwt:
+  secret: ${JWT_SECRET:my-super-secret-dev-key-32-chars-long-12345678}
+qr:
+  secret: ${QR_SECRET:my-qr-secret-key-for-dev-1234567890}

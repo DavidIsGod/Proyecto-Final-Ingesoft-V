@@ -46,3 +46,15 @@ web-build/
 *_data/
 pgdata/
 neo4jdata/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+backend.tf
+k8s/config/secrets.yaml
+
+# Test reports
+tests/security/reports/
+tests/locust/reports/

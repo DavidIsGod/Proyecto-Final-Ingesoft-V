@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL_DASHBOARD:jdbc:postgresql://postgres:5432/circleguard_dashboard}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+circleguard:
+  promotion-service:
+    url: ${CIRCLEGUARD_PROMOTION_SERVICE_URL:http://circleguard-promotion-service:8088}
+  features:
+    analytics-enabled: ${CIRCLEGUARD_FEATURES_ANALYTICS_ENABLED:true}
+resilience4j:
+  circuitbreaker:
+    instances:
+      promotionClient:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s

@@ -1,0 +1,10 @@
+jwt:
+  secret: "my-super-secret-dev-key-32-chars-long-12345678"
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+  data:
+    redis:
+      host: localhost
+      port: 6379

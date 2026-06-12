@@ -1,0 +1,21 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-startup: false
+  mail:
+    host: localhost
+    port: 2525
+
+management:
+  health:
+    mail:
+      enabled: false
+
+notification:
+  email:
+    enabled: true
+  sms:
+    enabled: false
+  push:
+    enabled: false

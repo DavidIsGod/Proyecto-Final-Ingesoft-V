@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREV" ]; then
+            git log ${PREV}..HEAD --pretty=format:"- %s (%h)" > RELEASE_NOTES.md
+          else
+            git log --pretty=format:"- %s (%h)" -20 > RELEASE_NOTES.md
+          fi
+          echo "## $(git describe --tags)" > RELEASE_NOTES_HEADER.md
+          cat RELEASE_NOTES_HEADER.md RELEASE_NOTES.md > RELEASE_NOTES_FULL.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: RELEASE_NOTES_FULL.md
+          generate_release_notes: true

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:identity-test;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  flyway:
+    enabled: false
+
+jwt:
+  secret: "my-super-secret-dev-key-32-chars-long-12345678"
+
+vault:
+  secret: "746573742d7365637265742d33322d63686172732d6c6f6e672d313233343536"
+  salt: "deadbeef"
+  hash-salt: "12345678"

@@ -1,0 +1,22 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Deploy to dev
+        run: |
+          echo "Deploy dev — configurar KUBE_CONFIG secret para cluster real"
+          kubectl apply -f k8s/namespace.yaml --dry-run=client -o yaml
+          kubectl apply -k k8s/ --dry-run=client -o yaml

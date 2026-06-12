@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: circleguard-common
+  namespace: circleguard
+data:
+  SPRING_PROFILES_ACTIVE: "k8s"
+  CIRCLEGUARD_IDENTITY_SERVICE_URL: "http://circleguard-identity-service:8083"
+  CIRCLEGUARD_PROMOTION_SERVICE_URL: "http://circleguard-promotion-service:8088"
+  CIRCLEGUARD_AUTH_SERVICE_URL: "http://circleguard-auth-service:8180"
+  CIRCLEGUARD_GATEWAY_SERVICE_URL: "http://circleguard-gateway-service:8087"
+  CIRCLEGUARD_FEATURES_ANALYTICS_ENABLED: "true"
+  SPRING_DATASOURCE_URL_AUTH: "jdbc:postgresql://postgres:5432/circleguard_auth"
+  SPRING_DATASOURCE_URL_IDENTITY: "jdbc:postgresql://postgres:5432/circleguard_identity"
+  SPRING_DATASOURCE_URL_FORM: "jdbc:postgresql://postgres:5432/circleguard_form"
+  SPRING_DATASOURCE_URL_DASHBOARD: "jdbc:postgresql://postgres:5432/circleguard_dashboard"
+  SPRING_DATASOURCE_URL_PROMOTION: "jdbc:postgresql://postgres:5432/circleguard_promotion"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+  SPRING_DATA_REDIS_HOST: "redis"
+  SPRING_NEO4J_URI: "bolt://neo4j:7687"
+  SPRING_LDAP_URLS: "ldap://openldap:389"

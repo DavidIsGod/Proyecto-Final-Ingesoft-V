@@ -15,10 +15,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.context.annotation.Import;
+import com.circleguard.identity.config.JwtAuthenticationFilter;
 import com.circleguard.identity.config.SecurityConfig;
 
 @WebMvcTest(IdentityVaultController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, JwtAuthenticationFilter.class})
 class IdentityVaultControllerTest {
 
     @Autowired

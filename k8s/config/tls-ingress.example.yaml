@@ -1,0 +1,13 @@
+# Requiere cert-manager instalado en el cluster.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: circleguard-tls
+  namespace: circleguard
+spec:
+  secretName: circleguard-tls-secret
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+    - api.circleguard.example.com
