@@ -214,7 +214,9 @@ kubectl get pods -n circleguard
 - Imágenes `circleguard/*:1.0.0` requieren build local previo.
 - Ingress TLS (`circleguard-tls-secret`) requiere cert-manager; ver `k8s/config/tls-ingress.example.yaml`.
 
-**Deploy CI:** workflows `deploy-dev.yml`, `deploy-stage.yml`, `deploy-prod.yml` ejecutan `kubectl apply --dry-run=client`. Deploy real pendiente de configurar `KUBE_CONFIG` en GitHub Environments.
+**Deploy CI:** workflows `deploy-dev.yml`, `deploy-stage.yml`, `deploy-prod.yml` validan con `kubectl apply -k k8s/ --dry-run=client --validate=false`. Deploy real solo si existe secret `KUBE_CONFIG` en el environment.
+
+**Trivy:** workflow `security.yml` usa `aquasecurity/trivy-action@v0.36.0` con `exit-code: "0"` (reporta CRITICAL/HIGH sin bloquear). Para bloquear en producción, cambiar a `exit-code: "1"`.
 
 ---
 

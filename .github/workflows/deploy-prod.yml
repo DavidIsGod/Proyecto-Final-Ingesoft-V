@@ -17,10 +17,22 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
 
-      - name: Deploy to production
+      - name: Validate manifests
         run: |
-          echo "Deploy prod — requiere aprobación en environment production"
-          kubectl apply -k k8s/ --dry-run=client -o yaml
+          echo "Validando manifiestos K8s (sin cluster)"
+          kubectl apply -k k8s/ --dry-run=client --validate=false -o yaml | head -30
+
+      - name: Deploy to production
+        env:
+          KUBE_CONFIG_B64: ${{ secrets.KUBE_CONFIG }}
+        run: |
+          if [ -z "$KUBE_CONFIG_B64" ]; then
+            echo "KUBE_CONFIG no configurado — deploy real omitido"
+            exit 0
+          fi
+          mkdir -p ~/.kube
+          echo "$KUBE_CONFIG_B64" | base64 -d > ~/.kube/config
+          kubectl apply -k k8s/
 
       - name: Rollback hint
         if: failure()

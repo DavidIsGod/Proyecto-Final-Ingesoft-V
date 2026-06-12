@@ -15,8 +15,19 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v4
 
-      - name: Deploy to dev
+      - name: Validate manifests
         run: |
-          echo "Deploy dev — configurar KUBE_CONFIG secret para cluster real"
-          kubectl apply -f k8s/namespace.yaml --dry-run=client -o yaml
-          kubectl apply -k k8s/ --dry-run=client -o yaml
+          echo "Validando manifiestos K8s (sin cluster)"
+          kubectl apply -k k8s/ --dry-run=client --validate=false -o yaml | head -30
+
+      - name: Deploy to dev
+        env:
+          KUBE_CONFIG_B64: ${{ secrets.KUBE_CONFIG }}
+        run: |
+          if [ -z "$KUBE_CONFIG_B64" ]; then
+            echo "KUBE_CONFIG no configurado — deploy real omitido"
+            exit 0
+          fi
+          mkdir -p ~/.kube
+          echo "$KUBE_CONFIG_B64" | base64 -d > ~/.kube/config
+          kubectl apply -k k8s/
