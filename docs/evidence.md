@@ -90,14 +90,28 @@ Con microservicios en el host, verificar targets en Prometheus → Status → Ta
 
 ## 4. Microservicios y health
 
+**Liberar puertos antes de `bootRun --parallel`:**
+
+Si una ejecución previa dejó procesos Java escuchando, Gradle falla con `Port XXXX was already in use`.
+
+```bash
+for port in 8180 8082 8083 8084 8085 8086 8087 8088; do
+  lsof -ti :$port | xargs kill -9 2>/dev/null
+done
+```
+
+Verificar que no queden listeners:
+
+```bash
+lsof -i :8180 -i :8082 -i :8083 -i :8084 -i :8085 -i :8086 -i :8087 -i :8088 -sTCP:LISTEN
+```
+
 **Arranque:**
 
 ```bash
 docker compose -f docker-compose.dev.yml up -d
 ./gradlew bootRun --parallel
 ```
-
-**Nota:** Si los puertos ya están ocupados, `bootRun --parallel` falla con `Port XXXX was already in use`. Liberar puertos o detener procesos previos antes de reintentar.
 
 **Health endpoints (`curl`):**
 
@@ -109,12 +123,12 @@ for port in 8180 8082 8083 8084 8085 8086 8087 8088; do
 done
 ```
 
-**Resultado (2026-06-12, con servicios ya en ejecución):**
+**Resultado esperado (tras liberar puertos y levantar infra + servicios):**
 
 | Servicio | Puerto | `/actuator/health` |
 |----------|--------|-------------------|
 | auth | 8180 | UP |
-| notification | 8082 | DOWN (dependencia no lista) |
+| notification | 8082 | UP |
 | identity | 8083 | UP |
 | dashboard | 8084 | UP |
 | file | 8085 | UP |
@@ -123,6 +137,32 @@ done
 | promotion | 8088 | UP |
 
 Rutas adicionales: `/actuator/health/liveness`, `/actuator/health/readiness`, `/actuator/prometheus`.
+
+### notification-service (8082) — causa de DOWN y corrección
+
+**Validación realizada:**
+
+| Punto | Resultado |
+|-------|-----------|
+| Servicio levantado | Sí (`java` en puerto 8082) |
+| Puerto en `application.yml` | 8082 (correcto) |
+| `/actuator/health` habilitado | Sí (`actuator.yml`) |
+| Kafka (9092) | Disponible; no causaba DOWN en readiness |
+| Postgres / Redis | No requeridos por este servicio |
+| SMTP `localhost:25` | **No disponible** en `docker-compose.dev.yml` |
+
+**Causa exacta:** `spring-boot-starter-mail` registra `MailHealthIndicator`, que prueba conexión a `spring.mail.host`/`port` (`localhost:25`). Sin servidor SMTP local, el indicador `mail` queda DOWN. `/actuator/health/liveness` y `/readiness` seguían UP; solo el health agregado reportaba DOWN.
+
+**Corrección aplicada** en `services/circleguard-notification-service/src/main/resources/actuator.yml`:
+
+```yaml
+management:
+  health:
+    mail:
+      enabled: false
+```
+
+Mismo criterio que `application-test.yml` del servicio. El envío de correo sigue configurado en runtime; solo se excluye el chequeo de health en dev. En producción con SMTP real, reactivar el indicador o apuntar `spring.mail` al relay corporativo.
 
 ---
 

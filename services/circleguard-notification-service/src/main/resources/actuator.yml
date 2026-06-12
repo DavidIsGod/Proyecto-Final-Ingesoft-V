@@ -13,6 +13,8 @@ management:
       enabled: true
     readinessstate:
       enabled: true
+    mail:
+      enabled: false
   metrics:
     export:
       prometheus:
