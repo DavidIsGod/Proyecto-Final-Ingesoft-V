@@ -64,3 +64,11 @@ cd terraform/environments/dev && terraform init && terraform plan
 | Operación | [docs/operations.md](docs/operations.md) |
 | Costos | [docs/costs.md](docs/costs.md) |
 | Change management | [docs/change-management.md](docs/change-management.md) |
+
+## Simulador web (`web/`)
+
+Demo interactiva y estática (React + Vite + Tailwind + Motion) que replica en el navegador la lógica del `promotion-service`: al confirmar un caso, los contactos directos pasan a **SUSPECT** y los de segundo nivel a **PROBABLE**; se publican los eventos `promotion.status.changed`, `alert.priority` y `circle.fenced`, la puerta valida el QR contra la caché de Redis y el dashboard aplica k-anonimidad (K = 5).
+
+```bash
+cd web && npm install && npm run dev
+```
